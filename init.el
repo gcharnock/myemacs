@@ -1,19 +1,38 @@
 
+;;Package management
+(require 'package)
+(add-to-list 'package-archives 
+         '("melpa" . "http://melpa-stable.milkbox.net/packages/"))
+(package-initialize)
+
+
+;;General Configuration
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
-(require 'package)
-(package-initialize)
-
 (global-linum-mode 1) ; always show line numbers
-
 (setq indent-tabs-mode nil)
 
-(add-hook 'haskell-cabal-mode-hook (lambda () (setq indent-tabs-mode nil)))
+;disable backup
+(setq make-backup-files nil)
+(setq backup-inhibited t)
+
+;disable auto save
+(setq auto-save-default nil)
+
+;;Haskell bigs
+
+(add-hook 'haskell-cabal-mode-hook
+ (lambda () (setq indent-tabs-mode nil)))
 
 (add-hook 'shell-mode-hook '(lambda () (toggle-truncate-lines 1)))
 
+(autoload 'ghc-init "ghc" nil t)
+(autoload 'ghc-debug "ghc" nil t)
+(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
+(setq ghc-debug t)
 
+;;C stuff
 (setq-default c-basic-offset 4)
 (setq tab-width 4)
 
@@ -28,14 +47,7 @@
                 (setq indent-tabs-mode nil)
                 (setq c-indent-level 4))))
 
-(autoload 'd-mode "d-mode" "Major mode for editing D code." t)
-(add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))
 
-;disable backup
-(setq make-backup-files nil)
-(setq backup-inhibited t)
-;disable auto save
-(setq auto-save-default nil)
 
 
 (defun rename-file-and-buffer (new-name)
