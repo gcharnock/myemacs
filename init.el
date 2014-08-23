@@ -1,4 +1,3 @@
-(add-to-list 'load-path "~/.emacs.d/")
 
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
@@ -6,17 +5,14 @@
 (require 'package)
 (package-initialize)
 
-;;(global-linum-mode 1) ; always show line numbers
-
-;;(load "auctex.el" nil t t)
-;;(load "preview-latex.el" nil t t)
-;;(load "ess.el" nil t t)
+(global-linum-mode 1) ; always show line numbers
 
 (setq indent-tabs-mode nil)
 
 (add-hook 'haskell-cabal-mode-hook (lambda () (setq indent-tabs-mode nil)))
 
 (add-hook 'shell-mode-hook '(lambda () (toggle-truncate-lines 1)))
+
 
 (setq-default c-basic-offset 4)
 (setq tab-width 4)
@@ -72,10 +68,11 @@
  '(safe-local-variable-values (quote ((haskell-process-use-ghci . t) (haskell-indent-spaces . 4)))))
 (put 'erase-buffer 'disabled nil)
 
-(autoload 'bash-completion-dynamic-complete 
-  "bash-completion"
-  "BASH completion hook")
-(add-hook 'shell-dynamic-complete-functions
-  'bash-completion-dynamic-complete)
-(add-hook 'shell-command-complete-functions
-  'bash-completion-dynamic-complete)
+
+(menu-bar-mode -1)
+(tool-bar-mode -1) 
+(toggle-scroll-bar -1) 
+(global-linum-mode 1)
+(put 'erase-buffer 'disabled nil)
+
+
