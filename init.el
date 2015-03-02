@@ -38,12 +38,12 @@
 
 (setq c-mode-hook
     (function (lambda ()
-		(setq tab-width 4)
+        (setq tab-width 4)
                 (setq indent-tabs-mode nil)
                 (setq c-indent-level 4))))
 (setq c++-mode-hook
     (function (lambda ()
-		(setq tab-width 4)
+        (setq tab-width 4)
                 (setq indent-tabs-mode nil)
                 (setq c-indent-level 4))))
 
@@ -88,4 +88,89 @@
 (put 'erase-buffer 'disabled nil)
 
 
-(load-file "/home/gareth/.emacs.d/haskell-flycheck.el")
+(require 'cl)
+;;(require 'eclim)
+;;(require 'eclimd)
+;;(global-eclim-mode)
+
+(require 'company)
+;;(require 'company-emacs-eclim)
+;;(company-emacs-eclim-setup)
+(global-company-mode t)
+
+;;(setq eclimd-executable "/home/gareth/usr/eclipse/eclimd")
+
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+
+(setq-default indent-tabs-mode nil)
+
+
+(put 'erase-buffer 'disabled nil)
+
+(custom-set-variables '(coffee-tab-width 2))
+
+(set-default 'truncate-lines t)
+(setq truncate-partial-width-windows t)
+
+;;(setq dired-recursive-copies 'always')
+
+;; (global-set-key (kbd "C-i") 'eclim-java-show-documentation-for-current-element)
+;; (global-set-key (kbd "C-o") 'company-complete)
+;; (global-set-key (kbd "C-;") 'eclim-java-find-declaration)
+;; (global-set-key (kbd "C-'") 'eclim-java-find-references)
+;; (global-set-key (kbd "C-#") 'eclim-java-refactor-rename-symbol-at-point)
+;; (global-set-key (kbd "C-x C-i") 'eclim-java-import-organize)
+
+(global-set-key (kbd "TAB") 'indent-for-tab-command)
+
+(setq tab-width 4)
+(standard-display-ascii ?\t "!TAB")
+
+(defun show-tabs () "" (interactive)
+  (standard-display-ascii ?\t "!TAB")
+)
+
+(defun hide-tabs () "" (interactive)
+  (standard-display-ascii ?\t "\t")
+)
+
+
+(defun string-replace (from to string &optional re)
+  "Replace all occurrences of FROM with TO in STRING.
+  All arguments are strings.
+  When optional fourth argument is non-nil, treat the from as a regular expression."
+  (let ((pos 0)
+        (res "")
+        (from (if re from (regexp-quote from))))
+    (while (< pos (length string))
+      (if (setq beg (string-match from string pos))
+          (progn
+            (setq res (concat res
+                              (substring string pos (match-beginning 0))
+                              to))
+            (setq pos (match-end 0)))
+        (progn
+          (setq res (concat res (substring string pos (length string))))
+          (setq pos (length string)))))
+    res))
+
+(defun toggle-test () "" (interactive)
+  (setq target
+      (if (string-match "/main/" buffer-file-name)
+          (replace-regexp-in-string "/main/" "/test/" buffer-file-name)
+          (replace-regexp-in-string "/test/" "/main/" buffer-file-name))
+  (find-file target)))
+
+
+;;(standard-display-ascii ?\t "    ")
+
+(global-set-key "\C-cy" '(lambda ()
+   (interactive)
+   (popup-menu 'yank-menu)))
+
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; This is your old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+
