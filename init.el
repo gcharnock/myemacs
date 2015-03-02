@@ -20,7 +20,7 @@
 ;disable auto save
 (setq auto-save-default nil)
 
-;;Haskell bigs
+;;Haskell bits
 
 (add-hook 'haskell-cabal-mode-hook
  (lambda () (setq indent-tabs-mode nil)))
@@ -88,3 +88,4 @@
 (put 'erase-buffer 'disabled nil)
 
 
+(load-file "/home/gareth/.emacs.d/haskell-flycheck.el")
