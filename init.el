@@ -29,7 +29,7 @@
 
 (autoload 'ghc-init "ghc" nil t)
 (autoload 'ghc-debug "ghc" nil t)
-(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
+;;(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
 (setq ghc-debug t)
 
 ;;C stuff
@@ -76,7 +76,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(coffee-tab-width 2)
  '(haskell-literate-default (quote bird))
+ '(haskell-mode-hook (quote (turn-on-haskell-indent)))
  '(safe-local-variable-values (quote ((haskell-process-use-ghci . t) (haskell-indent-spaces . 4)))))
 (put 'erase-buffer 'disabled nil)
 
@@ -109,7 +111,7 @@
 
 (put 'erase-buffer 'disabled nil)
 
-(custom-set-variables '(coffee-tab-width 2))
+
 
 (set-default 'truncate-lines t)
 (setq truncate-partial-width-windows t)
@@ -177,3 +179,9 @@
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 ;; This is your old M-x.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+
+
+(global-set-key (kbd "C-x p") 'windmove-up)
+(global-set-key (kbd "C-x n") 'windmove-down)
+(global-set-key (kbd "C-8") 'windmove-right)
+(global-set-key (kbd "C-7") 'windmove-left)
