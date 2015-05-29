@@ -20,7 +20,7 @@
 ;disable auto save
 (setq auto-save-default nil)
 
-;;Haskell bigs
+;;Haskell bits
 
 (add-hook 'haskell-cabal-mode-hook
  (lambda () (setq indent-tabs-mode nil)))
@@ -29,8 +29,21 @@
 
 (autoload 'ghc-init "ghc" nil t)
 (autoload 'ghc-debug "ghc" nil t)
-;;(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
+
+(add-hook 'haskell-mode-hook 'ghc-init)
+
+;;This mode is a bad idea
+;;(add-hook 'haskell-mode-hook 'turn-on-haskell-unicode-input-method)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-decl-scan)
+
+(eval-after-load "haskell-mode"
+  '(progn
+     (define-key haskell-mode-map (kbd "C-,") 'haskell-move-nested-left)
+     (define-key haskell-mode-map (kbd "C-.") 'haskell-move-nested-right)))
+
 (setq ghc-debug t)
+
 
 ;;C stuff
 (setq-default c-basic-offset 4)
@@ -70,7 +83,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 81 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
+ '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -93,7 +106,6 @@
 (require 'cl)
 ;;(require 'eclim)
 ;;(require 'eclimd)
-(require 'w3)
 ;;(global-eclim-mode)
 
 (require 'company)
@@ -165,12 +177,16 @@
           (replace-regexp-in-string "/test/" "/main/" buffer-file-name))
   (find-file target)))
 
+(defun espeak-region (start end)
+  "execute region in an inferior shell"
+  (interactive "r")
+  (shell-command
+     (concat "espeak \"" (buffer-substring-no-properties start end) "\"")))
+
 
 ;;(standard-display-ascii ?\t "    ")
 
-(require 'nav)
-(nav-disable-overeager-window-splitting)
-
+(global-set-key (kbd "C-c C-s") 'espeak-region)
 (global-set-key "\C-cy" '(lambda ()
    (interactive)
    (popup-menu 'yank-menu)))
